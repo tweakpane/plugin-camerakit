@@ -1,0 +1,58 @@
+// Import Tweakpane styles
+@import '../../node_modules/tweakpane/lib/sass/defs';
+@import '../../node_modules/tweakpane/lib/sass/view/common/input';
+
+// Additional style for the plugin
+.#{$prefix}-tmpv {
+	// Extend a general input view style
+	@extend %input;
+
+	cursor: pointer;
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	grid-template-rows: repeat(auto-fit, 10px);
+	height: calc(var(--unit-size) * 3);
+	overflow: hidden;
+	position: relative;
+
+	&_text {
+		// You can use CSS variables for styling. See `RootView` declarations for details:
+		// ../../node_modules/tweakpane/lib/sass/view/_root.scss
+		color: var(--input-foreground-color);
+
+		bottom: 2px;
+		font-size: 0.9em;
+		line-height: 0.9;
+		opacity: 0.5;
+		position: absolute;
+		right: 2px;
+	}
+	&_dot {
+		height: 10px;
+		line-height: 10px;
+		position: relative;
+		text-align: center;
+
+		&::before {
+			background-color: var(--input-foreground-color);
+			content: '';
+			border-radius: 1px;
+			height: 2px;
+			left: 50%;
+			margin-left: -1px;
+			margin-top: -1px;
+			position: absolute;
+			top: 50%;
+			width: 2px;
+		}
+	}
+	&_frac {
+		background-color: var(--input-foreground-color);
+		border-radius: 1px;
+		height: 2px;
+		left: 50%;
+		margin-top: -1px;
+		position: absolute;
+		top: 50%;
+	}
+}
