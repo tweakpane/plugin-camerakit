@@ -2,21 +2,49 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1">
 	<title></title>
 </head>
 <body>
 	<script src="../node_modules/tweakpane/dist/tweakpane.js"></script>
-	<script src="../dist/tweakpane-plugin-template.js"></script>
+	<script src="../dist/tweakpane-plugin-camerakit.js"></script>
 	<script>
 		const params = {
 			prop: 3,
 		};
 		const pane = new Tweakpane();
 
-		// TODO: Update parameters for your plugin
 		pane.addInput({test: 3}, 'test', {
-			view: 'dots',
-		}).on('change', (ev) => {
+			plugin: 'camerakit',
+			view: 'ring',
+			series: 0,
+			label: 'ring-0',
+		});
+		pane.addInput({test: 3}, 'test', {
+			plugin: 'camerakit',
+			view: 'ring',
+			series: 1,
+			unit: {
+				pixels: 40,
+				ticks: 10,
+				value: 0.1,
+			},
+			label: 'ring-1',
+		});
+		pane.addInput({test: 3}, 'test', {
+			plugin: 'camerakit',
+			view: 'ring',
+			series: 2,
+			label: 'ring-2',
+		});
+		pane.addInput({test: 0.3}, 'test', {
+			plugin: 'camerakit',
+			view: 'wheel',
+			amount: 0.1,
+			label: 'wheel',
+		});
+
+		pane.on('change', (ev) => {
 			console.log(ev.value);
 		});
 	</script>

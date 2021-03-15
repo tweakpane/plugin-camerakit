@@ -1,8 +1,8 @@
 {
-  "name": "tweakpane-plugin-template",
+  "name": "tweakpane-plugin-camerakit",
   "version": "0.0.0",
   "description": "Plugin template for Tweakpane",
-  "main": "dist/tweakpane-plugin-template.js",
+  "main": "dist/tweakpane-plugin-camerakit.js",
   "author": "cocopon",
   "license": "MIT",
   "files": [

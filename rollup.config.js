@@ -57,7 +57,7 @@ export default async () => {
 
 	const css = await compileCss();
 	return {
-		input: 'src/plugin.ts',
+		input: 'src/index.ts',
 		external: ['tweakpane'],
 		output: {
 			file: `dist/${Package.name}${postfix}.js`,

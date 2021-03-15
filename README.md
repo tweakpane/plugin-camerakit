@@ -32,7 +32,7 @@ This is a plugin template of an input binding for [Tweakpane][tweakpane].
 ### Browser
 ```html
 <script src="tweakpane.min.js"></script>
-<scirpt src="tweakpane-plugin-template.min.js"></script>
+<scirpt src="tweakpane-plugin-camerakit.min.js"></script>
 <script>
   const pane = new Tweakpane();
   // ...
