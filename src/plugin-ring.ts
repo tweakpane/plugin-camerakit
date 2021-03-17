@@ -1,3 +1,4 @@
+import {RingController} from 'controller/ring';
 import {createRingInputParams, RingInputParams} from 'params';
 import {InputParams} from 'tweakpane/lib/api/types';
 import {forceCast} from 'tweakpane/lib/misc/type-util';
@@ -92,6 +93,16 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 			value: 10,
 		};
 		const c = args.value.constraint;
+
+		if (params.wide) {
+			return new RingController(args.document, {
+				formatter: createRingFormatter(ringUnit),
+				seriesId: getRingSeries(params.series) ?? '0',
+				unit: ringUnit,
+				value: args.value,
+			});
+		}
+
 		return new RingTextController(args.document, {
 			baseStep: getBaseStep(c),
 			draggingScale: getSuitableDraggingScale(c, args.initialValue),

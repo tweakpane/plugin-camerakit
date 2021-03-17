@@ -44,6 +44,43 @@
 			label: 'wheel',
 		});
 
+		const f = pane.addFolder({
+			title: 'wide',
+		});
+		f.addInput({test: 3}, 'test', {
+			plugin: 'camerakit',
+			view: 'ring',
+			series: 0,
+			wide: true,
+			label: 'ring-0',
+		});
+		f.addInput({test: 3}, 'test', {
+			plugin: 'camerakit',
+			view: 'ring',
+			series: 1,
+			unit: {
+				pixels: 40,
+				ticks: 10,
+				value: 0.1,
+			},
+			wide: true,
+			label: 'ring-1',
+		});
+		f.addInput({test: 3}, 'test', {
+			plugin: 'camerakit',
+			view: 'ring',
+			series: 2,
+			wide: true,
+			label: 'ring-2',
+		});
+		f.addInput({test: 0.3}, 'test', {
+			plugin: 'camerakit',
+			view: 'wheel',
+			wide: true,
+			amount: 0.1,
+			label: 'wheel',
+		});
+
 		pane.on('change', (ev) => {
 			console.log(ev.value);
 		});

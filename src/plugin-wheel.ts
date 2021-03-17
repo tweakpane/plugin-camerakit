@@ -1,3 +1,4 @@
+import {RingController} from 'controller/ring';
 import {createWheelInputParams} from 'params';
 import {createConstraint} from 'plugin-ring';
 import {InputParams} from 'tweakpane/lib/api/types';
@@ -53,6 +54,20 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 
 		const c = args.value.constraint;
 		const draggingScale = getSuitableDraggingScale(c, args.initialValue);
+
+		if (params.wide) {
+			return new RingController(args.document, {
+				formatter: createNumberFormatter(0),
+				seriesId: 'w',
+				unit: {
+					ticks: 10,
+					pixels: 40,
+					value: (params.amount ?? draggingScale) * 40,
+				},
+				value: args.value,
+			});
+		}
+
 		return new RingTextController(args.document, {
 			baseStep: getBaseStep(c),
 			draggingScale: draggingScale,

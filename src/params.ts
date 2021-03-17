@@ -20,6 +20,10 @@ function createParamFinder<T>(
 	};
 }
 
+export const findBooleanParam = createParamFinder<boolean>(
+	(value): value is boolean => typeof value === 'boolean',
+);
+
 export const findNumberParam = createParamFinder<number>(
 	(value): value is number => typeof value === 'number',
 );
@@ -50,6 +54,7 @@ export interface RingInputParams extends BaseInputParams {
 	series?: RingSeries;
 	step?: number;
 	unit?: RingUnit;
+	wide?: boolean;
 }
 
 const findSeries = createParamFinder<RingSeries>(
@@ -95,6 +100,7 @@ export function createRingInputParams(
 		plugin: plugin,
 		unit: createUnit(params, 'unit'),
 		view: view,
+		wide: findBooleanParam(params, 'wide'),
 	};
 }
 
@@ -106,6 +112,7 @@ export interface WheelInputParams extends BaseInputParams {
 	max?: number;
 	min?: number;
 	step?: number;
+	wide?: boolean;
 }
 
 export function createWheelInputParams(
@@ -124,5 +131,6 @@ export function createWheelInputParams(
 		step: findNumberParam(params, 'step'),
 		plugin: plugin,
 		view: view,
+		wide: findBooleanParam(params, 'wide'),
 	};
 }
