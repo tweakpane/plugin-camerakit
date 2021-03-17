@@ -93,11 +93,18 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 			value: 10,
 		};
 		const c = args.value.constraint;
+		const formatters = {
+			ring: createRingFormatter(ringUnit),
+			text: createNumberFormatter(
+				getSuitableDecimalDigits(c, args.initialValue),
+			),
+		};
 
 		if (params.wide) {
 			return new RingController(args.document, {
-				formatter: createRingFormatter(ringUnit),
+				formatters: formatters,
 				seriesId: getRingSeries(params.series) ?? '0',
+				tooltipEnabled: true,
 				unit: ringUnit,
 				value: args.value,
 			});
@@ -106,12 +113,7 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 		return new RingTextController(args.document, {
 			baseStep: getBaseStep(c),
 			draggingScale: getSuitableDraggingScale(c, args.initialValue),
-			formatters: {
-				ring: createRingFormatter(ringUnit),
-				text: createNumberFormatter(
-					getSuitableDecimalDigits(c, args.initialValue),
-				),
-			},
+			formatters: formatters,
 			parser: parseNumber,
 			seriesId: getRingSeries(params.series) ?? '0',
 			ringUnit: ringUnit,

@@ -2,11 +2,6 @@
 @import '../../node_modules/tweakpane/lib/sass/view/common/input';
 
 .#{$prefix}-ckrv {
-	@extend %input;
-
-	cursor: pointer;
-	height: calc(var(--unit-size));
-	overflow: hidden;
 	position: relative;
 
 	&::before {
@@ -29,6 +24,13 @@
 		right: 0;
 	}
 
+	&_w {
+		@extend %input;
+
+		cursor: pointer;
+		height: calc(var(--unit-size));
+		overflow: hidden;
+	}
 	&_o {
 		height: 100%;
 		left: 0;
@@ -59,6 +61,14 @@
 		top: 0;
 		transform: translateX(-50%);
 		white-space: pre;
+	}
+	&_tt {
+		left: 50%;
+		top: -4px;
+		visibility: hidden;
+	}
+	&#{&}-tt &_tt {
+		visibility: visible;
 	}
 
 	// model 0

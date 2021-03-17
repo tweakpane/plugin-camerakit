@@ -1,6 +1,6 @@
 import {Formatter} from 'tweakpane/lib/plugin/common/converter/formatter';
 import {removeElement, SVG_NS} from 'tweakpane/lib/plugin/common/dom-util';
-import {Value} from 'tweakpane/lib/plugin/common/model/value';
+import {Value, ValueEvents} from 'tweakpane/lib/plugin/common/model/value';
 import {constrainRange} from 'tweakpane/lib/plugin/common/number-util';
 import {ClassName} from 'tweakpane/lib/plugin/common/view/class-name';
 import {ValueView} from 'tweakpane/lib/plugin/common/view/value';
@@ -24,8 +24,12 @@ export interface RingUnit {
 }
 
 interface Config {
-	formatter: Formatter<number>;
+	formatters: {
+		ring: Formatter<number>;
+		text: Formatter<number>;
+	};
 	seriesId: string;
+	showsTooltip: Value<boolean>;
 	unit: RingUnit;
 	value: Value<number>;
 }
@@ -38,13 +42,20 @@ export class RingView implements ValueView<number> {
 	private readonly unit_: RingUnit;
 	private readonly offsetElem_: HTMLElement;
 	private readonly svgElem_: SVGElement;
-	private readonly formatter_: Formatter<number>;
+	private readonly formatters_: {
+		ring: Formatter<number>;
+		text: Formatter<number>;
+	};
 	private tickElems_: SVGLineElement[] = [];
 	private labelElems_: HTMLElement[] = [];
+	private tooltipElem_: HTMLElement;
 	private boundsWidth_ = -1;
 
 	constructor(doc: Document, config: Config) {
-		this.formatter_ = config.formatter;
+		this.onShowsTooltipChange_ = this.onShowsTooltipChange_.bind(this);
+		this.onValueChange_ = this.onValueChange_.bind(this);
+
+		this.formatters_ = config.formatters;
 		this.unit_ = config.unit;
 
 		this.element = doc.createElement('div');
@@ -54,15 +65,25 @@ export class RingView implements ValueView<number> {
 		);
 
 		this.value = config.value;
-		this.value.emitter.on('change', this.onValueChange_.bind(this));
+		this.value.emitter.on('change', this.onValueChange_);
+
+		config.showsTooltip.emitter.on('change', this.onShowsTooltipChange_);
+
+		const wrapperElem = doc.createElement('div');
+		wrapperElem.classList.add(className('w'));
+		this.element.appendChild(wrapperElem);
 
 		this.offsetElem_ = doc.createElement('div');
 		this.offsetElem_.classList.add(className('o'));
-		this.element.appendChild(this.offsetElem_);
+		wrapperElem.appendChild(this.offsetElem_);
 
 		this.svgElem_ = doc.createElementNS(SVG_NS, 'svg');
 		this.svgElem_.classList.add(className('g'));
 		this.offsetElem_.appendChild(this.svgElem_);
+
+		this.tooltipElem_ = doc.createElement('div');
+		this.tooltipElem_.classList.add(ClassName('tt')(), className('tt'));
+		this.element.appendChild(this.tooltipElem_);
 
 		this.waitToBeAdded_();
 	}
@@ -164,7 +185,7 @@ export class RingView implements ValueView<number> {
 
 		this.labelElems_.forEach((elem, i) => {
 			const lv = ov + i * uv;
-			elem.textContent = this.formatter_(lv);
+			elem.textContent = this.formatters_.ring(lv);
 			elem.style.opacity = String(opacity(lv));
 		});
 
@@ -185,11 +206,21 @@ export class RingView implements ValueView<number> {
 		const offset = bw / 2 - offsetFromCenter;
 		this.offsetElem_.style.transform = `translateX(${offset}px)`;
 
+		this.tooltipElem_.textContent = this.formatters_.text(v);
+
 		this.rebuildScaleIfNeeded_(bw);
 		this.updateScale_(bw);
 	}
 
 	private onValueChange_() {
 		this.update();
+	}
+
+	private onShowsTooltipChange_(ev: ValueEvents<boolean>['change']) {
+		if (ev.rawValue) {
+			this.element.classList.add(className(undefined, 'tt'));
+		} else {
+			this.element.classList.remove(className(undefined, 'tt'));
+		}
 	}
 }

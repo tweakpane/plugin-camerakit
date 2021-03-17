@@ -31,8 +31,9 @@ export class RingTextController implements ValueController<number> {
 		this.value = config.value;
 
 		this.rc_ = new RingController(doc, {
-			formatter: config.formatters.ring,
+			formatters: config.formatters,
 			seriesId: config.seriesId,
+			tooltipEnabled: false,
 			unit: config.ringUnit,
 			value: this.value,
 		});

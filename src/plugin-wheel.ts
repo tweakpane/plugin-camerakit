@@ -54,11 +54,18 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 
 		const c = args.value.constraint;
 		const draggingScale = getSuitableDraggingScale(c, args.initialValue);
+		const formatters = {
+			ring: createNumberFormatter(0),
+			text: createNumberFormatter(
+				getSuitableDecimalDigits(c, args.initialValue),
+			),
+		};
 
 		if (params.wide) {
 			return new RingController(args.document, {
-				formatter: createNumberFormatter(0),
+				formatters: formatters,
 				seriesId: 'w',
+				tooltipEnabled: true,
 				unit: {
 					ticks: 10,
 					pixels: 40,
@@ -71,12 +78,7 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 		return new RingTextController(args.document, {
 			baseStep: getBaseStep(c),
 			draggingScale: draggingScale,
-			formatters: {
-				ring: createNumberFormatter(0),
-				text: createNumberFormatter(
-					getSuitableDecimalDigits(c, args.initialValue),
-				),
-			},
+			formatters: formatters,
 			parser: parseNumber,
 			seriesId: 'w',
 			ringUnit: {
