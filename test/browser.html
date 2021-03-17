@@ -4,80 +4,100 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1">
 	<title></title>
+	<style>body {background-color: black;}</style>
 </head>
 <body>
 	<script src="../node_modules/tweakpane/dist/tweakpane.js"></script>
 	<script src="../dist/tweakpane-plugin-camerakit.js"></script>
 	<script>
 		const params = {
-			prop: 3,
+			fNumber: 1.8,
+			focalLength: 50,
+			iso: 1600,
 		};
 		const pane = new Tweakpane();
 
-		pane.addInput({test: 3}, 'test', {
+		const f1 = pane.addFolder({
+			title: 'default',
+		});
+		f1.addInput(params, 'focalLength', {
 			plugin: 'camerakit',
 			view: 'ring',
+			// appearance of ring view
 			series: 0,
 			label: 'ring-0',
 		});
-		pane.addInput({test: 3}, 'test', {
+		f1.addInput(params, 'fNumber', {
 			plugin: 'camerakit',
 			view: 'ring',
 			series: 1,
+			// scale unit
 			unit: {
-				pixels: 40,
+				// pixels for unit
+				pixels: 50,
+				// number of ticks for unit
 				ticks: 10,
-				value: 0.1,
+				// value for unit
+				value: 0.2,
 			},
+			step: 0.02,
 			label: 'ring-1',
 		});
-		pane.addInput({test: 3}, 'test', {
+		f1.addInput(params, 'focalLength', {
 			plugin: 'camerakit',
 			view: 'ring',
 			series: 2,
 			label: 'ring-2',
 		});
-		pane.addInput({test: 0.3}, 'test', {
+		f1.addInput(params, 'iso', {
 			plugin: 'camerakit',
 			view: 'wheel',
-			amount: 0.1,
+
+			// amount of value per pixel
+			amount: 100,
+			min: 100,
+			step: 100,
 			label: 'wheel',
 		});
 
-		const f = pane.addFolder({
+		const f2 = pane.addFolder({
 			title: 'wide',
 		});
-		f.addInput({test: 3}, 'test', {
+		f2.addInput(params, 'focalLength', {
 			plugin: 'camerakit',
 			view: 'ring',
 			series: 0,
+			// hides text input
 			wide: true,
 			label: 'ring-0',
 		});
-		f.addInput({test: 3}, 'test', {
+		f2.addInput(params, 'fNumber', {
 			plugin: 'camerakit',
 			view: 'ring',
 			series: 1,
 			unit: {
-				pixels: 40,
+				pixels: 60,
 				ticks: 10,
-				value: 0.1,
+				value: 0.2,
 			},
 			wide: true,
+			step: 0.02,
 			label: 'ring-1',
 		});
-		f.addInput({test: 3}, 'test', {
+		f2.addInput(params, 'focalLength', {
 			plugin: 'camerakit',
 			view: 'ring',
 			series: 2,
 			wide: true,
 			label: 'ring-2',
 		});
-		f.addInput({test: 0.3}, 'test', {
+		f2.addInput(params, 'iso', {
 			plugin: 'camerakit',
 			view: 'wheel',
 			wide: true,
-			amount: 0.1,
+			amount: 100,
+			min: 100,
+			step: 100,
 			label: 'wheel',
 		});
 
