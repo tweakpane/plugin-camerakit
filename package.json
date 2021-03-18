@@ -1,7 +1,7 @@
 {
   "name": "tweakpane-plugin-camerakit",
   "version": "0.1.0",
-  "description": "Plugin template for Tweakpane",
+  "description": "Enjoyable camera flavored controls for Tweakpane",
   "main": "dist/tweakpane-plugin-camerakit.js",
   "author": "cocopon",
   "license": "MIT",
