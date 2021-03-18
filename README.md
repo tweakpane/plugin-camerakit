@@ -20,7 +20,7 @@ import 'tweakpane-plugin-camerakit';
 
 
 
-# Usage
+## Usage
 ```js
 // Ring input
 pane.addInput(params, 'key', {
