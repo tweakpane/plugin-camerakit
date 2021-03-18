@@ -1,6 +1,8 @@
 # tweakpane-plugin-camerakit
 Enjoyable camera-flavoed controls for [Tweakpane].
 
+![](https://user-images.githubusercontent.com/602961/111609726-edcd0e80-881d-11eb-9ebc-6d0102fb5bc5.jpg)
+
 
 ## Installation
 
