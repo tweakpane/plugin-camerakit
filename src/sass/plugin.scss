@@ -16,7 +16,7 @@
 		top: 0;
 	}
 	&::after {
-		background-color: var(--input-foreground-color);
+		background-color: var(--in-fg);
 		content: '';
 		left: 0;
 		margin: auto;
@@ -44,17 +44,17 @@
 		width: 100%;
 	}
 	&_mjt {
-		stroke: var(--input-foreground-color);
+		stroke: var(--in-fg);
 		stroke-width: 2;
 		transform-origin: bottom;
 	}
 	&_mnt {
-		stroke: var(--input-foreground-color);
+		stroke: var(--in-fg);
 		stroke-width: 1;
 		transform-origin: bottom;
 	}
 	&_l {
-		color: var(--input-foreground-color);
+		color: var(--in-fg);
 		font-size: 0.9em;
 		pointer-events: none;
 		position: absolute;
@@ -145,7 +145,7 @@
 	}
 	&#{&}-mw &_mjt,
 	&#{&}-mw &_mnt {
-		stroke: var(--separator-color);
+		stroke: var(--spr-fg);
 		stroke-width: 2;
 		transform: scaleY(10);
 	}
