@@ -107,6 +107,7 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 				tooltipEnabled: true,
 				unit: ringUnit,
 				value: args.value,
+				viewProps: args.viewProps,
 			});
 		}
 
@@ -118,6 +119,7 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 			seriesId: getRingSeries(params.series) ?? '0',
 			ringUnit: ringUnit,
 			value: args.value,
+			viewProps: args.viewProps,
 		});
 	},
 };

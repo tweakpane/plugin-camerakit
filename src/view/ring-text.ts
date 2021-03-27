@@ -1,6 +1,5 @@
-import {Value} from 'tweakpane/lib/plugin/common/model/value';
 import {ClassName} from 'tweakpane/lib/plugin/common/view/class-name';
-import {ValueView} from 'tweakpane/lib/plugin/common/view/value';
+import {View} from 'tweakpane/lib/plugin/common/view/view';
 import {NumberTextView} from 'tweakpane/lib/plugin/input-bindings/number/view/number-text';
 
 import {RingView} from './ring';
@@ -8,18 +7,14 @@ import {RingView} from './ring';
 interface Config {
 	ringView: RingView;
 	textView: NumberTextView;
-	value: Value<number>;
 }
 
 const className = ClassName('ckrtxt');
 
-export class RingTextView implements ValueView<number> {
+export class RingTextView implements View {
 	public readonly element: HTMLElement;
-	public readonly value: Value<number>;
 
 	constructor(doc: Document, config: Config) {
-		this.value = config.value;
-
 		this.element = doc.createElement('div');
 		this.element.classList.add(className());
 
@@ -33,6 +28,4 @@ export class RingTextView implements ValueView<number> {
 		textElem.appendChild(config.textView.element);
 		this.element.appendChild(textElem);
 	}
-
-	public update(): void {}
 }

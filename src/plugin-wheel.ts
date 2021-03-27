@@ -72,6 +72,7 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 					value: (params.amount ?? draggingScale) * 40,
 				},
 				value: args.value,
+				viewProps: args.viewProps,
 			});
 		}
 
@@ -87,6 +88,7 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 				value: (params.amount ?? draggingScale) * 40,
 			},
 			value: args.value,
+			viewProps: args.viewProps,
 		});
 	},
 };

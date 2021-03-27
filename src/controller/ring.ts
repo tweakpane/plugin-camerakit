@@ -1,6 +1,7 @@
 import {ValueController} from 'tweakpane/lib/plugin/common/controller/value';
 import {Formatter} from 'tweakpane/lib/plugin/common/converter/formatter';
 import {Value} from 'tweakpane/lib/plugin/common/model/value';
+import {ViewProps} from 'tweakpane/lib/plugin/common/model/view-props';
 import {
 	PointerHandler,
 	PointerHandlerEvent,
@@ -17,11 +18,13 @@ interface Config {
 	seriesId: string;
 	unit: RingUnit;
 	value: Value<number>;
+	viewProps: ViewProps;
 }
 
 export class RingController implements ValueController<number> {
 	public readonly value: Value<number>;
 	public readonly view: RingView;
+	public readonly viewProps: ViewProps;
 	private readonly unit_: RingUnit;
 	private readonly showsTooltip_: Value<boolean>;
 	private readonly tooltipEnabled_: boolean;
@@ -34,6 +37,7 @@ export class RingController implements ValueController<number> {
 		this.onPointerUp_ = this.onPointerUp_.bind(this);
 
 		this.value = config.value;
+		this.viewProps = config.viewProps;
 		this.tooltipEnabled_ = config.tooltipEnabled;
 		this.unit_ = config.unit;
 
@@ -44,6 +48,7 @@ export class RingController implements ValueController<number> {
 			showsTooltip: this.showsTooltip_,
 			unit: config.unit,
 			value: this.value,
+			viewProps: this.viewProps,
 		});
 
 		const ptHandler = new PointerHandler(this.view.element);

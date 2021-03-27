@@ -1,9 +1,11 @@
 import {Formatter} from 'tweakpane/lib/plugin/common/converter/formatter';
 import {removeElement, SVG_NS} from 'tweakpane/lib/plugin/common/dom-util';
 import {Value, ValueEvents} from 'tweakpane/lib/plugin/common/model/value';
+import {ViewProps} from 'tweakpane/lib/plugin/common/model/view-props';
 import {constrainRange} from 'tweakpane/lib/plugin/common/number-util';
 import {ClassName} from 'tweakpane/lib/plugin/common/view/class-name';
-import {ValueView} from 'tweakpane/lib/plugin/common/view/value';
+import {bindViewProps} from 'tweakpane/lib/plugin/common/view/reactive';
+import {View} from 'tweakpane/lib/plugin/common/view/view';
 
 /**
  * A configuration of a ring unit.
@@ -32,13 +34,14 @@ interface Config {
 	showsTooltip: Value<boolean>;
 	unit: RingUnit;
 	value: Value<number>;
+	viewProps: ViewProps;
 }
 
 const className = ClassName('ckr');
 
-export class RingView implements ValueView<number> {
+export class RingView implements View {
 	public readonly element: HTMLElement;
-	public readonly value: Value<number>;
+	private readonly value_: Value<number>;
 	private readonly unit_: RingUnit;
 	private readonly offsetElem_: HTMLElement;
 	private readonly svgElem_: SVGElement;
@@ -63,9 +66,10 @@ export class RingView implements ValueView<number> {
 			className(),
 			className(undefined, `m${config.seriesId}`),
 		);
+		bindViewProps(config.viewProps, this.element);
 
-		this.value = config.value;
-		this.value.emitter.on('change', this.onValueChange_);
+		this.value_ = config.value;
+		this.value_.emitter.on('change', this.onValueChange_);
 
 		config.showsTooltip.emitter.on('change', this.onShowsTooltipChange_);
 
@@ -170,7 +174,7 @@ export class RingView implements ValueView<number> {
 	private updateScale_(bw: number): void {
 		const uv = this.unit_.value;
 		const uw = this.unit_.pixels;
-		const v = this.value.rawValue;
+		const v = this.value_.rawValue;
 		const halfUnitCount = Math.ceil(bw / 2 / uw) + 1;
 		const ov = v - (v % uv) - uv * halfUnitCount;
 		const opacity = (tv: number): number => {
@@ -200,7 +204,7 @@ export class RingView implements ValueView<number> {
 		const bw = this.element.getBoundingClientRect().width;
 		const uv = this.unit_.value;
 		const uw = this.unit_.pixels;
-		const v = this.value.rawValue;
+		const v = this.value_.rawValue;
 		const halfUnitCount = Math.ceil(bw / 2 / uw) + 1;
 		const offsetFromCenter = ((v % uv) + uv * halfUnitCount) * (uw / uv);
 		const offset = bw / 2 - offsetFromCenter;
