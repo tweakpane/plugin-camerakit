@@ -1,31 +1,28 @@
 import {RingController} from 'controller/ring';
 import {createRingInputParams, RingInputParams} from 'params';
-import {InputParams} from 'tweakpane/lib/api/types';
-import {forceCast} from 'tweakpane/lib/misc/type-util';
-import {CompositeConstraint} from 'tweakpane/lib/plugin/common/constraint/composite';
-import {Constraint} from 'tweakpane/lib/plugin/common/constraint/constraint';
-import {Formatter} from 'tweakpane/lib/plugin/common/converter/formatter';
+import {InputParams} from 'tweakpane/lib/blade/common/api/types';
+import {CompositeConstraint} from 'tweakpane/lib/common/constraint/composite';
+import {Constraint} from 'tweakpane/lib/common/constraint/constraint';
+import {Formatter} from 'tweakpane/lib/common/converter/formatter';
 import {
 	createNumberFormatter,
 	numberFromUnknown,
 	parseNumber,
-} from 'tweakpane/lib/plugin/common/converter/number';
-import {getDecimalDigits} from 'tweakpane/lib/plugin/common/number-util';
-import {
-	equalsPrimitive,
-	writePrimitive,
-} from 'tweakpane/lib/plugin/common/primitive';
-import {TpError} from 'tweakpane/lib/plugin/common/tp-error';
-import {InputBindingPlugin} from 'tweakpane/lib/plugin/input-binding';
-import {
-	createRangeConstraint,
-	createStepConstraint,
-} from 'tweakpane/lib/plugin/input-bindings/number/plugin';
+} from 'tweakpane/lib/common/converter/number';
+import {getDecimalDigits} from 'tweakpane/lib/common/number-util';
+import {writePrimitive} from 'tweakpane/lib/common/primitive';
+import {TpError} from 'tweakpane/lib/common/tp-error';
 import {
 	getBaseStep,
 	getSuitableDecimalDigits,
 	getSuitableDraggingScale,
-} from 'tweakpane/lib/plugin/util';
+} from 'tweakpane/lib/common/util';
+import {
+	createRangeConstraint,
+	createStepConstraint,
+} from 'tweakpane/lib/input-binding/number/plugin';
+import {InputBindingPlugin} from 'tweakpane/lib/input-binding/plugin';
+import {forceCast} from 'tweakpane/lib/misc/type-util';
 
 import {RingTextController} from './controller/ring-text';
 import {RingUnit} from './view/ring';
@@ -78,7 +75,6 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 	binding: {
 		reader: (_args) => numberFromUnknown,
 		constraint: (args) => createConstraint(args.params),
-		equals: equalsPrimitive,
 		writer: (_args) => writePrimitive,
 	},
 	controller(args) {
@@ -92,7 +88,7 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 			pixels: 40,
 			value: 10,
 		};
-		const c = args.value.constraint;
+		const c = args.constraint;
 		const formatters = {
 			ring: createRingFormatter(ringUnit),
 			text: createNumberFormatter(

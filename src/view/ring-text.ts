@@ -1,6 +1,6 @@
-import {ClassName} from 'tweakpane/lib/plugin/common/view/class-name';
-import {View} from 'tweakpane/lib/plugin/common/view/view';
-import {NumberTextView} from 'tweakpane/lib/plugin/input-bindings/number/view/number-text';
+import {NumberTextView} from 'tweakpane/lib/common/number/view/number-text';
+import {ClassName} from 'tweakpane/lib/common/view/class-name';
+import {View} from 'tweakpane/lib/common/view/view';
 
 import {RingView} from './ring';
 

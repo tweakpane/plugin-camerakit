@@ -1,9 +1,10 @@
-import {ValueController} from 'tweakpane/lib/plugin/common/controller/value';
-import {Formatter} from 'tweakpane/lib/plugin/common/converter/formatter';
-import {Parser} from 'tweakpane/lib/plugin/common/converter/parser';
-import {Value} from 'tweakpane/lib/plugin/common/model/value';
-import {ViewProps} from 'tweakpane/lib/plugin/common/model/view-props';
-import {NumberTextController} from 'tweakpane/lib/plugin/input-bindings/number/controller/number-text';
+import {ValueController} from 'tweakpane/lib/common/controller/value';
+import {Formatter} from 'tweakpane/lib/common/converter/formatter';
+import {Parser} from 'tweakpane/lib/common/converter/parser';
+import {Value} from 'tweakpane/lib/common/model/value';
+import {ValueMap} from 'tweakpane/lib/common/model/value-map';
+import {ViewProps} from 'tweakpane/lib/common/model/view-props';
+import {NumberTextController} from 'tweakpane/lib/common/number/controller/number-text';
 
 import {RingUnit} from '../view/ring';
 import {RingTextView} from '../view/ring-text';
@@ -44,9 +45,11 @@ export class RingTextController implements ValueController<number> {
 		});
 		this.tc_ = new NumberTextController(doc, {
 			baseStep: config.baseStep,
-			draggingScale: config.draggingScale,
-			formatter: config.formatters.text,
 			parser: config.parser,
+			props: new ValueMap({
+				draggingScale: config.draggingScale,
+				formatter: config.formatters.text,
+			}),
 			value: this.value,
 			viewProps: this.viewProps,
 		});

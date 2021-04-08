@@ -1,36 +1,12 @@
-import {BaseInputParams} from 'tweakpane/lib/api/types';
+import {BaseInputParams} from 'tweakpane/lib/blade/common/api/types';
+import {
+	findBooleanParam,
+	findNumberParam,
+	findObjectParam,
+	findStringParam,
+} from 'tweakpane/lib/common/params';
 
 import {RingUnit} from './view/ring';
-
-// TODO: Move them to core
-type PropertyFinder<T> = (
-	params: Record<string, unknown>,
-	key: string,
-) => T | undefined;
-
-function createParamFinder<T>(
-	test: (value: unknown) => value is T,
-): PropertyFinder<T> {
-	return (params, key) => {
-		if (!(key in params)) {
-			return;
-		}
-		const value = params[key];
-		return test(value) ? value : undefined;
-	};
-}
-
-export const findBooleanParam = createParamFinder<boolean>(
-	(value): value is boolean => typeof value === 'boolean',
-);
-
-export const findNumberParam = createParamFinder<number>(
-	(value): value is number => typeof value === 'number',
-);
-
-export const findStringParam = createParamFinder<string>(
-	(value): value is string => typeof value === 'string',
-);
 
 function isObject(value: unknown): value is Record<string, unknown> {
 	if (value === null) {
@@ -38,10 +14,6 @@ function isObject(value: unknown): value is Record<string, unknown> {
 	}
 	return typeof value === 'object';
 }
-
-export const findObjectParam = createParamFinder<Record<string, unknown>>(
-	isObject,
-);
 
 type RingSeries = 0 | 1 | 2;
 
@@ -57,9 +29,16 @@ export interface RingInputParams extends BaseInputParams {
 	wide?: boolean;
 }
 
-const findSeries = createParamFinder<RingSeries>(
-	(value): value is RingSeries => value === 1 || value === 2 || value === 3,
-);
+function findSeries(
+	params: Record<string, unknown>,
+	key: string,
+): RingSeries | undefined {
+	const value = findNumberParam(params, key);
+	if (value === undefined) {
+		return;
+	}
+	return value === 0 || value === 1 || value === 2 ? value : undefined;
+}
 
 function createUnit(
 	params: Record<string, unknown>,

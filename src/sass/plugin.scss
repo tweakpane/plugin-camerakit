@@ -4,6 +4,10 @@
 .#{$prefix}-ckrv {
 	position: relative;
 
+	&.#{$prefix}-v-disabled {
+		opacity: 0.5;
+	}
+
 	&::before {
 		background-color: var(--separator-color);
 		bottom: 0;

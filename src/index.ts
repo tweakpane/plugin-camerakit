@@ -1,6 +1,7 @@
-import {RingInputPlugin} from 'plugin-ring';
-import {WheelInputPlugin} from 'plugin-wheel';
 import Tweakpane from 'tweakpane';
+
+import {RingInputPlugin} from './plugin-ring';
+import {WheelInputPlugin} from './plugin-wheel';
 
 {
 	Tweakpane.registerPlugin({

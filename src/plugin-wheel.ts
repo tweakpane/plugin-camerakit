@@ -1,24 +1,21 @@
 import {RingController} from 'controller/ring';
 import {createWheelInputParams} from 'params';
 import {createConstraint} from 'plugin-ring';
-import {InputParams} from 'tweakpane/lib/api/types';
-import {forceCast} from 'tweakpane/lib/misc/type-util';
+import {InputParams} from 'tweakpane/lib/blade/common/api/types';
 import {
 	createNumberFormatter,
 	numberFromUnknown,
 	parseNumber,
-} from 'tweakpane/lib/plugin/common/converter/number';
-import {
-	equalsPrimitive,
-	writePrimitive,
-} from 'tweakpane/lib/plugin/common/primitive';
-import {TpError} from 'tweakpane/lib/plugin/common/tp-error';
-import {InputBindingPlugin} from 'tweakpane/lib/plugin/input-binding';
+} from 'tweakpane/lib/common/converter/number';
+import {writePrimitive} from 'tweakpane/lib/common/primitive';
+import {TpError} from 'tweakpane/lib/common/tp-error';
 import {
 	getBaseStep,
 	getSuitableDecimalDigits,
 	getSuitableDraggingScale,
-} from 'tweakpane/lib/plugin/util';
+} from 'tweakpane/lib/common/util';
+import {InputBindingPlugin} from 'tweakpane/lib/input-binding/plugin';
+import {forceCast} from 'tweakpane/lib/misc/type-util';
 
 import {RingTextController} from './controller/ring-text';
 
@@ -43,7 +40,6 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 	binding: {
 		reader: (_args) => numberFromUnknown,
 		constraint: (args) => createConstraint(args.params),
-		equals: equalsPrimitive,
 		writer: (_args) => writePrimitive,
 	},
 	controller(args) {
@@ -52,7 +48,7 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 			throw TpError.shouldNeverHappen();
 		}
 
-		const c = args.value.constraint;
+		const c = args.constraint;
 		const draggingScale = getSuitableDraggingScale(c, args.initialValue);
 		const formatters = {
 			ring: createNumberFormatter(0),
