@@ -146,10 +146,11 @@
 	}
 	&#{&}-mw &_g {
 		bottom: 0;
+		opacity: 0.2;
 	}
 	&#{&}-mw &_mjt,
 	&#{&}-mw &_mnt {
-		stroke: var(--spr-fg);
+		stroke: var(--in-fg);
 		stroke-width: 2;
 		transform: scaleY(10);
 	}

@@ -50,6 +50,6 @@
     "typescript": "^3.9.9"
   },
   "peerDependencies": {
-    "tweakpane": "2.3.0"
+    "tweakpane": "2.4.0"
   }
 }
