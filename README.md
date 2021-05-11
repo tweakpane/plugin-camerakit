@@ -11,15 +11,21 @@ Enjoyable camera flavored controls for [Tweakpane].
 ```html
 <script src="tweakpane.min.js"></script>
 <scirpt src="tweakpane-plugin-camerakit.min.js"></script>
+<script>
+const pane = new Tweakpane.Pane();
+pane.registerPlugin(TweakpaneCamerakitPlugin);
+</script>
 ```
 
 
 ### Package
 ```js
-import Tweakpane from 'tweakpane';
-import 'tweakpane-plugin-camerakit';
-```
+import {Pane} from 'tweakpane';
+import * as CamerakitPlugin from 'tweakpane-plugin-camerakit';
 
+const pane = new Pane();
+pane.registerPlugin(CamerakitPlugin);
+```
 
 
 ## Usage
