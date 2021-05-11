@@ -27,7 +27,8 @@ interface Config {
 }
 
 export class RingTextController
-	implements ValueController<number, RingTextView> {
+	implements ValueController<number, RingTextView>
+{
 	public readonly value: Value<number>;
 	public readonly view: RingTextView;
 	public readonly viewProps: ViewProps;
