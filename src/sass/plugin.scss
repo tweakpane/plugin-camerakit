@@ -1,5 +1,4 @@
-@import '../../node_modules/tweakpane/lib/sass/defs';
-@import '../../node_modules/tweakpane/lib/sass/view/common/input';
+@import '../../node_modules/@tweakpane/core/lib/sass/plugin';
 
 .#{$prefix}-ckrv {
 	position: relative;
@@ -9,7 +8,7 @@
 	}
 
 	&::before {
-		background-color: var(--separator-color);
+		background-color: var(--grv-fg);
 		bottom: 0;
 		content: '';
 		height: 2px;
@@ -32,7 +31,7 @@
 		@extend %input;
 
 		cursor: pointer;
-		height: calc(var(--unit-size));
+		height: calc(var(--bld-us));
 		overflow: hidden;
 	}
 	&_o {

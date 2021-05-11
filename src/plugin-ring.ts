@@ -1,33 +1,29 @@
-import {RingController} from 'controller/ring';
-import {createRingInputParams, RingInputParams} from 'params';
-import {InputParams} from 'tweakpane/lib/blade/common/api/types';
-import {CompositeConstraint} from 'tweakpane/lib/common/constraint/composite';
-import {Constraint} from 'tweakpane/lib/common/constraint/constraint';
-import {Formatter} from 'tweakpane/lib/common/converter/formatter';
 import {
 	createNumberFormatter,
-	numberFromUnknown,
-	parseNumber,
-} from 'tweakpane/lib/common/converter/number';
-import {getDecimalDigits} from 'tweakpane/lib/common/number-util';
-import {writePrimitive} from 'tweakpane/lib/common/primitive';
-import {TpError} from 'tweakpane/lib/common/tp-error';
-import {
+	Formatter,
 	getBaseStep,
+	getDecimalDigits,
 	getSuitableDecimalDigits,
 	getSuitableDraggingScale,
-} from 'tweakpane/lib/common/util';
-import {
-	createRangeConstraint,
-	createStepConstraint,
-} from 'tweakpane/lib/input-binding/number/plugin';
-import {InputBindingPlugin} from 'tweakpane/lib/input-binding/plugin';
-import {forceCast} from 'tweakpane/lib/misc/type-util';
+	InputBindingPlugin,
+	InputParams,
+	numberFromUnknown,
+	ParamsParsers,
+	parseNumber,
+	parseParams,
+	writePrimitive,
+} from '@tweakpane/core';
 
+import {RingController} from './controller/ring';
 import {RingTextController} from './controller/ring-text';
+import {createConstraint, RingInputParams, RingSeries} from './util';
 import {RingUnit} from './view/ring';
 
-function getRingSeries(series: RingInputParams['series']): string | null {
+function parseSeries(value: unknown): RingSeries | undefined {
+	return value === 0 || value === 1 || value === 2 ? value : undefined;
+}
+
+function getRingSeries(series: RingSeries | undefined): string | null {
 	return series !== undefined ? String(series) : '0';
 }
 
@@ -41,36 +37,40 @@ function createRingFormatter(ringUnit: RingUnit): Formatter<number> {
 	};
 }
 
-export function createConstraint(params: InputParams): Constraint<number> {
-	const constraints = [];
-	const cr = createRangeConstraint(params);
-	if (cr) {
-		constraints.push(cr);
-	}
-	const cs = createStepConstraint(params);
-	if (cs) {
-		constraints.push(cs);
-	}
-	return new CompositeConstraint(constraints);
-}
-
-export const RingInputPlugin: InputBindingPlugin<number, number> = {
+export const RingInputPlugin: InputBindingPlugin<
+	number,
+	number,
+	RingInputParams
+> = {
 	id: 'input-camerakit-ring',
+	type: 'input',
 	css: '__css__',
 	accept(exValue: unknown, params: InputParams) {
 		if (typeof exValue !== 'number') {
 			return null;
 		}
 
-		const p = createRingInputParams(forceCast(params));
-		if (!p) {
-			return null;
-		}
-		if (p.view !== 'ring') {
-			return null;
-		}
+		const p = ParamsParsers;
+		const result = parseParams<RingInputParams>(params, {
+			view: p.required.constant('cameraring'),
 
-		return exValue;
+			max: p.optional.number,
+			min: p.optional.number,
+			series: p.optional.custom(parseSeries),
+			step: p.optional.number,
+			unit: p.optional.object({
+				pixels: p.required.number,
+				ticks: p.required.number,
+				value: p.required.number,
+			}),
+			wide: p.optional.boolean,
+		});
+		return result
+			? {
+					initialValue: exValue,
+					params: result,
+			  }
+			: null;
 	},
 	binding: {
 		reader: (_args) => numberFromUnknown,
@@ -78,12 +78,7 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 		writer: (_args) => writePrimitive,
 	},
 	controller(args) {
-		const params = createRingInputParams(forceCast(args.params));
-		if (!params) {
-			throw TpError.shouldNeverHappen();
-		}
-
-		const ringUnit = params.unit ?? {
+		const ringUnit = args.params.unit ?? {
 			ticks: 5,
 			pixels: 40,
 			value: 10,
@@ -96,10 +91,10 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 			),
 		};
 
-		if (params.wide) {
+		if (args.params.wide) {
 			return new RingController(args.document, {
 				formatters: formatters,
-				seriesId: getRingSeries(params.series) ?? '0',
+				seriesId: getRingSeries(args.params.series) ?? '0',
 				tooltipEnabled: true,
 				unit: ringUnit,
 				value: args.value,
@@ -112,7 +107,7 @@ export const RingInputPlugin: InputBindingPlugin<number, number> = {
 			draggingScale: getSuitableDraggingScale(c, args.initialValue),
 			formatters: formatters,
 			parser: parseNumber,
-			seriesId: getRingSeries(params.series) ?? '0',
+			seriesId: getRingSeries(args.params.series) ?? '0',
 			ringUnit: ringUnit,
 			value: args.value,
 			viewProps: args.viewProps,

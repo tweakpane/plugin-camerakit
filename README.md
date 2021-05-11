@@ -26,10 +26,8 @@ import 'tweakpane-plugin-camerakit';
 ```js
 // Ring input
 pane.addInput(params, 'key', {
-  // Use CameraKit for this input
-  plugin: 'camerakit',
   // Ring control
-  view: 'ring',
+  view: 'cameraring',
   // Appearance of the ring view: 0 | 1 | 2
   series: 0,
 });
@@ -38,8 +36,7 @@ pane.addInput(params, 'key', {
 ```js
 // Configuring a scale
 pane.addInput(params, 'key', {
-  plugin: 'camerakit',
-  view: 'ring',
+  view: 'cameraring',
   series: 0,
   // Scale unit
   unit: {
@@ -59,8 +56,7 @@ pane.addInput(params, 'key', {
 ```js
 // Wide
 pane.addInput(params, 'key', {
-  plugin: 'camerakit',
-  view: 'ring',
+  view: 'cameraring',
   series: 0,
   // Hide a text input and widen the ring view
   wide: true,
@@ -70,8 +66,7 @@ pane.addInput(params, 'key', {
 ```js
 // Wheel input
 pane.addInput(params, 'key', {
-  plugin: 'camerakit',
-  view: 'wheel',
+  view: 'camerawheel',
   // Amount of a value per pixel
   amount: 100,
 });

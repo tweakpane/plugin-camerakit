@@ -1,23 +1,8 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
-		"esModuleInterop": true,
-		"lib": [
-			"dom",
-			"es2015"
-		],
+		"lib": ["DOM", "ES2015"],
+		"moduleResolution": "Node",
 		"strict": true,
-		"target": "es5",
-		"paths": {
-			"tweakpane": ["../node_modules/tweakpane/lib/index"],
-			"tweakpane/*": ["../node_modules/tweakpane/*"],
-		}
-	},
-	"include": [
-		"**/*.ts",
-		"../node_modules/tweakpane/lib/**/*"
-	],
-	"exclude": [
-		"../node_modules/tweakpane/lib/**/*-test.ts"
-	]
+		"target": "ES6"
+	}
 }
