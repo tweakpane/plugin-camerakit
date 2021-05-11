@@ -5,6 +5,10 @@
   "main": "dist/tweakpane-plugin-camerakit.js",
   "author": "cocopon",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tweakpane/plugin-camerakit.git"
+  },
   "files": [
     "dist"
   ],
