@@ -83,13 +83,9 @@ export default async () => {
 	const css = await compileCss();
 	return {
 		input: 'src/index.ts',
-		external: ['tweakpane'],
 		output: {
 			file: `dist/${distName}${postfix}.js`,
 			format: 'umd',
-			globals: {
-				tweakpane: 'Tweakpane',
-			},
 			name: getUmdName(Package.name),
 		},
 		plugins: getPlugins(css, production),
