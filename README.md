@@ -21,7 +21,7 @@ pane.registerPlugin(TweakpaneCamerakitPlugin);
 ### Package
 ```js
 import {Pane} from 'tweakpane';
-import * as CamerakitPlugin from 'tweakpane-plugin-camerakit';
+import * as CamerakitPlugin from '@tweakpane/plugin-camerakit';
 
 const pane = new Pane();
 pane.registerPlugin(CamerakitPlugin);
