@@ -1,11 +1,14 @@
-import {Formatter} from 'tweakpane/lib/common/converter/formatter';
-import {removeElement, SVG_NS} from 'tweakpane/lib/common/dom-util';
-import {Value, ValueEvents} from 'tweakpane/lib/common/model/value';
-import {ViewProps} from 'tweakpane/lib/common/model/view-props';
-import {constrainRange} from 'tweakpane/lib/common/number-util';
-import {ClassName} from 'tweakpane/lib/common/view/class-name';
-import {bindClassModifier} from 'tweakpane/lib/common/view/reactive';
-import {View} from 'tweakpane/lib/common/view/view';
+import {
+	ClassName,
+	constrainRange,
+	Formatter,
+	removeElement,
+	SVG_NS,
+	Value,
+	ValueEvents,
+	View,
+	ViewProps,
+} from '@tweakpane/core';
 
 /**
  * A configuration of a ring unit.
@@ -66,7 +69,7 @@ export class RingView implements View {
 			className(),
 			className(undefined, `m${config.seriesId}`),
 		);
-		bindClassModifier(config.viewProps, this.element);
+		config.viewProps.bindClassModifiers(this.element);
 
 		this.value_ = config.value;
 		this.value_.emitter.on('change', this.onValueChange_);

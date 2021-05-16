@@ -1,12 +1,12 @@
-import {ValueController} from 'tweakpane/lib/common/controller/value';
-import {Formatter} from 'tweakpane/lib/common/converter/formatter';
-import {PrimitiveValue} from 'tweakpane/lib/common/model/primitive-value';
-import {Value} from 'tweakpane/lib/common/model/value';
-import {ViewProps} from 'tweakpane/lib/common/model/view-props';
 import {
+	createValue,
+	Formatter,
 	PointerHandler,
 	PointerHandlerEvent,
-} from 'tweakpane/lib/common/view/pointer-handler';
+	Value,
+	ValueController,
+	ViewProps,
+} from '@tweakpane/core';
 
 import {RingUnit, RingView} from '../view/ring';
 
@@ -22,7 +22,7 @@ interface Config {
 	viewProps: ViewProps;
 }
 
-export class RingController implements ValueController<number> {
+export class RingController implements ValueController<number, RingView> {
 	public readonly value: Value<number>;
 	public readonly view: RingView;
 	public readonly viewProps: ViewProps;
@@ -42,7 +42,7 @@ export class RingController implements ValueController<number> {
 		this.tooltipEnabled_ = config.tooltipEnabled;
 		this.unit_ = config.unit;
 
-		this.showsTooltip_ = new PrimitiveValue<boolean>(false);
+		this.showsTooltip_ = createValue<boolean>(false);
 		this.view = new RingView(doc, {
 			formatters: config.formatters,
 			seriesId: config.seriesId,

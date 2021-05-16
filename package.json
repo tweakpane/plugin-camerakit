@@ -1,10 +1,14 @@
 {
-  "name": "tweakpane-plugin-camerakit",
-  "version": "0.1.4",
+  "name": "@tweakpane/plugin-camerakit",
+  "version": "0.2.0-beta.0",
   "description": "Enjoyable camera flavored controls for Tweakpane",
   "main": "dist/tweakpane-plugin-camerakit.js",
   "author": "cocopon",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tweakpane/plugin-camerakit.git"
+  },
   "files": [
     "dist"
   ],
@@ -28,9 +32,11 @@
     "watch:ts": "onchange 'src/**/*.ts' -- rollup --config rollup.config.js"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-replace": "^2.4.1",
     "@rollup/plugin-typescript": "^8.2.0",
-    "@types/jsdom": "^16.2.6",
+    "@tweakpane/core": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
     "autoprefixer": "^10.2.4",
@@ -38,8 +44,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "jsdom": "^16.4.0",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.0",
     "npm-run-all": "^4.1.5",
     "onchange": "^7.1.0",
     "postcss": "^8.2.6",
@@ -47,9 +52,7 @@
     "rollup": "^2.39.1",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^3.9.9"
-  },
-  "peerDependencies": {
-    "tweakpane": "2.4.0"
+    "tweakpane": "^3.0.0",
+    "typescript": "^4.1.5"
   }
 }

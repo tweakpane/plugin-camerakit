@@ -11,25 +11,29 @@ Enjoyable camera flavored controls for [Tweakpane].
 ```html
 <script src="tweakpane.min.js"></script>
 <scirpt src="tweakpane-plugin-camerakit.min.js"></script>
+<script>
+const pane = new Tweakpane.Pane();
+pane.registerPlugin(TweakpaneCamerakitPlugin);
+</script>
 ```
 
 
 ### Package
 ```js
-import Tweakpane from 'tweakpane';
-import 'tweakpane-plugin-camerakit';
-```
+import {Pane} from 'tweakpane';
+import * as CamerakitPlugin from '@tweakpane/plugin-camerakit';
 
+const pane = new Pane();
+pane.registerPlugin(CamerakitPlugin);
+```
 
 
 ## Usage
 ```js
 // Ring input
 pane.addInput(params, 'key', {
-  // Use CameraKit for this input
-  plugin: 'camerakit',
   // Ring control
-  view: 'ring',
+  view: 'cameraring',
   // Appearance of the ring view: 0 | 1 | 2
   series: 0,
 });
@@ -38,8 +42,7 @@ pane.addInput(params, 'key', {
 ```js
 // Configuring a scale
 pane.addInput(params, 'key', {
-  plugin: 'camerakit',
-  view: 'ring',
+  view: 'cameraring',
   series: 0,
   // Scale unit
   unit: {
@@ -59,8 +62,7 @@ pane.addInput(params, 'key', {
 ```js
 // Wide
 pane.addInput(params, 'key', {
-  plugin: 'camerakit',
-  view: 'ring',
+  view: 'cameraring',
   series: 0,
   // Hide a text input and widen the ring view
   wide: true,
@@ -70,8 +72,7 @@ pane.addInput(params, 'key', {
 ```js
 // Wheel input
 pane.addInput(params, 'key', {
-  plugin: 'camerakit',
-  view: 'wheel',
+  view: 'camerawheel',
   // Amount of a value per pixel
   amount: 100,
 });

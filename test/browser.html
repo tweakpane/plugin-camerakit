@@ -15,21 +15,20 @@
 			focalLength: 50,
 			iso: 1600,
 		};
-		const pane = new Tweakpane();
+		const pane = new Tweakpane.Pane();
+		pane.registerPlugin(TweakpaneCamerakitPlugin);
 
 		const f1 = pane.addFolder({
 			title: 'default',
 		});
 		f1.addInput(params, 'focalLength', {
-			plugin: 'camerakit',
-			view: 'ring',
+			view: 'cameraring',
 			// appearance of ring view
 			series: 0,
 			label: 'ring-0',
 		});
 		f1.addInput(params, 'fNumber', {
-			plugin: 'camerakit',
-			view: 'ring',
+			view: 'cameraring',
 			series: 1,
 			// scale unit
 			unit: {
@@ -44,14 +43,12 @@
 			label: 'ring-1',
 		});
 		f1.addInput(params, 'focalLength', {
-			plugin: 'camerakit',
-			view: 'ring',
+			view: 'cameraring',
 			series: 2,
 			label: 'ring-2',
 		});
 		f1.addInput(params, 'iso', {
-			plugin: 'camerakit',
-			view: 'wheel',
+			view: 'camerawheel',
 
 			// amount of value per pixel
 			amount: 100,
@@ -64,16 +61,14 @@
 			title: 'wide',
 		});
 		f2.addInput(params, 'focalLength', {
-			plugin: 'camerakit',
-			view: 'ring',
+			view: 'cameraring',
 			series: 0,
 			// hides text input
 			wide: true,
 			label: 'ring-0',
 		});
 		f2.addInput(params, 'fNumber', {
-			plugin: 'camerakit',
-			view: 'ring',
+			view: 'cameraring',
 			series: 1,
 			unit: {
 				pixels: 60,
@@ -85,15 +80,13 @@
 			label: 'ring-1',
 		});
 		f2.addInput(params, 'focalLength', {
-			plugin: 'camerakit',
-			view: 'ring',
+			view: 'cameraring',
 			series: 2,
 			wide: true,
 			label: 'ring-2',
 		});
 		f2.addInput(params, 'iso', {
-			plugin: 'camerakit',
-			view: 'wheel',
+			view: 'camerawheel',
 			wide: true,
 			amount: 100,
 			min: 100,
@@ -104,6 +97,8 @@
 		pane.on('change', (ev) => {
 			console.log(ev.value);
 		});
+
+		window.pane = pane;
 	</script>
 </body>
 </html>

@@ -1,41 +1,50 @@
-import {RingController} from 'controller/ring';
-import {createWheelInputParams} from 'params';
-import {createConstraint} from 'plugin-ring';
-import {InputParams} from 'tweakpane/lib/blade/common/api/types';
 import {
 	createNumberFormatter,
-	numberFromUnknown,
-	parseNumber,
-} from 'tweakpane/lib/common/converter/number';
-import {writePrimitive} from 'tweakpane/lib/common/primitive';
-import {TpError} from 'tweakpane/lib/common/tp-error';
-import {
 	getBaseStep,
 	getSuitableDecimalDigits,
 	getSuitableDraggingScale,
-} from 'tweakpane/lib/common/util';
-import {InputBindingPlugin} from 'tweakpane/lib/input-binding/plugin';
-import {forceCast} from 'tweakpane/lib/misc/type-util';
+	InputBindingPlugin,
+	InputParams,
+	numberFromUnknown,
+	ParamsParsers,
+	parseNumber,
+	parseParams,
+	writePrimitive,
+} from '@tweakpane/core';
 
+import {RingController} from './controller/ring';
 import {RingTextController} from './controller/ring-text';
+import {createConstraint, WheelInputParams} from './util';
 
-export const WheelInputPlugin: InputBindingPlugin<number, number> = {
+export const WheelInputPlugin: InputBindingPlugin<
+	number,
+	number,
+	WheelInputParams
+> = {
 	id: 'input-camerakit-wheel',
+	type: 'input',
 	css: '__css__',
 	accept(exValue: unknown, params: InputParams) {
 		if (typeof exValue !== 'number') {
 			return null;
 		}
 
-		const p = createWheelInputParams(forceCast(params));
-		if (!p) {
-			return null;
-		}
-		if (p.view !== 'wheel') {
-			return null;
-		}
+		const p = ParamsParsers;
+		const result = parseParams<WheelInputParams>(params, {
+			view: p.required.constant('camerawheel'),
 
-		return exValue;
+			amount: p.optional.number,
+			max: p.optional.number,
+			min: p.optional.number,
+			step: p.optional.number,
+			wide: p.optional.boolean,
+		});
+		return result
+			? {
+					initialValue: exValue,
+					params: result,
+			  }
+			: null;
 	},
 	binding: {
 		reader: (_args) => numberFromUnknown,
@@ -43,11 +52,6 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 		writer: (_args) => writePrimitive,
 	},
 	controller(args) {
-		const params = createWheelInputParams(forceCast(args.params));
-		if (!params) {
-			throw TpError.shouldNeverHappen();
-		}
-
 		const c = args.constraint;
 		const draggingScale = getSuitableDraggingScale(c, args.initialValue);
 		const formatters = {
@@ -57,7 +61,7 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 			),
 		};
 
-		if (params.wide) {
+		if (args.params.wide) {
 			return new RingController(args.document, {
 				formatters: formatters,
 				seriesId: 'w',
@@ -65,7 +69,7 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 				unit: {
 					ticks: 10,
 					pixels: 40,
-					value: (params.amount ?? draggingScale) * 40,
+					value: (args.params.amount ?? draggingScale) * 40,
 				},
 				value: args.value,
 				viewProps: args.viewProps,
@@ -81,7 +85,7 @@ export const WheelInputPlugin: InputBindingPlugin<number, number> = {
 			ringUnit: {
 				ticks: 10,
 				pixels: 40,
-				value: (params.amount ?? draggingScale) * 40,
+				value: (args.params.amount ?? draggingScale) * 40,
 			},
 			value: args.value,
 			viewProps: args.viewProps,

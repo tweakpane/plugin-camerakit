@@ -1,10 +1,12 @@
-import {ValueController} from 'tweakpane/lib/common/controller/value';
-import {Formatter} from 'tweakpane/lib/common/converter/formatter';
-import {Parser} from 'tweakpane/lib/common/converter/parser';
-import {Value} from 'tweakpane/lib/common/model/value';
-import {ValueMap} from 'tweakpane/lib/common/model/value-map';
-import {ViewProps} from 'tweakpane/lib/common/model/view-props';
-import {NumberTextController} from 'tweakpane/lib/common/number/controller/number-text';
+import {
+	Formatter,
+	NumberTextController,
+	Parser,
+	Value,
+	ValueController,
+	ValueMap,
+	ViewProps,
+} from '@tweakpane/core';
 
 import {RingUnit} from '../view/ring';
 import {RingTextView} from '../view/ring-text';
@@ -24,7 +26,9 @@ interface Config {
 	viewProps: ViewProps;
 }
 
-export class RingTextController implements ValueController<number> {
+export class RingTextController
+	implements ValueController<number, RingTextView>
+{
 	public readonly value: Value<number>;
 	public readonly view: RingTextView;
 	public readonly viewProps: ViewProps;
@@ -46,7 +50,7 @@ export class RingTextController implements ValueController<number> {
 		this.tc_ = new NumberTextController(doc, {
 			baseStep: config.baseStep,
 			parser: config.parser,
-			props: new ValueMap({
+			props: ValueMap.fromObject({
 				draggingScale: config.draggingScale,
 				formatter: config.formatters.text,
 			}),
