@@ -97,28 +97,21 @@ export class RingView implements View {
 
 	// Waits to be added to DOM tree to build initial scale elements
 	private waitToBeAdded_(): void {
-		const ob = new MutationObserver((ml) => {
-			for (const m of ml) {
-				if (m.type !== 'childList') {
-					continue;
-				}
-
-				m.addedNodes.forEach((elem) => {
-					if (!elem.contains(this.element)) {
+		const ob = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.target !== this.element || entry.intersectionRatio === 0) {
 						return;
 					}
 					this.update();
 					ob.disconnect();
 				});
-			}
-		});
-
-		const doc = this.element.ownerDocument;
-		ob.observe(doc.body, {
-			attributes: true,
-			childList: true,
-			subtree: true,
-		});
+			},
+			{
+				root: null,
+			},
+		);
+		ob.observe(this.element);
 	}
 
 	private rebuildScaleIfNeeded_(bw: number): void {
