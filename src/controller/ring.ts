@@ -80,10 +80,17 @@ export class RingController implements ValueController<number, RingView> {
 		const dx = data.point.x - this.ox_;
 		const uw = this.unit_.pixels;
 		const uv = this.unit_.value;
-		this.value.rawValue = this.ov_ - (dx / uw) * uv;
+		this.value.setRawValue(this.ov_ - (dx / uw) * uv, {
+			forceEmit: false,
+			last: false,
+		});
 	}
 
 	private onPointerUp_() {
+		this.value.setRawValue(this.value.rawValue, {
+			forceEmit: true,
+			last: true,
+		});
 		this.showsTooltip_.rawValue = false;
 	}
 }
