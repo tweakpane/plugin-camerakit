@@ -19,7 +19,7 @@
     "test": "eslint --ext .ts 'src/**/*.ts'",
     "assets": "run-s clean build assets:version assets:zip",
     "assets:version": "node scripts/assets-append-version.js",
-    "assets:zip": "zip -x '*types*' -j -r $(cat package.json | npx json name)-$(cat package.json | npx json version).zip dist",
+    "assets:zip": "zip -x '*types*' -j -r $(node scripts/dist-name.js)-$(cat package.json | npx json version).zip dist",
     "clean": "rm -rf dist *.tgz *.zip",
     "build": "run-p build:*",
     "build:dev": "rollup --config rollup.config.js",
@@ -27,9 +27,9 @@
     "format": "run-p format:*",
     "format:scss": "prettier --parser scss --write 'src/sass/**/*.scss'",
     "format:ts": "eslint --ext .ts --fix 'src/**/*.ts'",
-    "watch": "npm run build:dev && run-p watch:*",
-    "watch:sass": "onchange 'src/sass/**/*.scss' -- npm run build:dev",
-    "watch:ts": "onchange 'src/**/*.ts' -- rollup --config rollup.config.js"
+    "watch": "run-p watch:*",
+    "watch:sass": "onchange --initial --kill 'src/sass/**/*.scss' -- npm run build:dev",
+    "watch:ts": "onchange --initial --kill 'src/**/*.ts' -- npm run build:dev"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.2",
