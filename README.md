@@ -10,7 +10,7 @@ Enjoyable camera flavored controls for [Tweakpane].
 ### Browser
 ```html
 <script src="tweakpane.min.js"></script>
-<scirpt src="tweakpane-plugin-camerakit.min.js"></script>
+<script src="tweakpane-plugin-camerakit.min.js"></script>
 <script>
 const pane = new Tweakpane.Pane();
 pane.registerPlugin(TweakpaneCamerakitPlugin);
