@@ -1,14 +1,14 @@
-@import '../../node_modules/@tweakpane/core/lib/sass/plugin';
+@use '../../node_modules/@tweakpane/core/lib/sass/tp';
 
-.#{$prefix}-ckrv {
+.#{tp.$prefix}-ckrv {
 	position: relative;
 
-	&.#{$prefix}-v-disabled {
+	&.#{tp.$prefix}-v-disabled {
 		opacity: 0.5;
 	}
 
 	&::before {
-		background-color: var(--grv-fg);
+		background-color: tp.cssVar('groove-fg');
 		bottom: 0;
 		content: '';
 		height: 2px;
@@ -19,7 +19,7 @@
 		top: 0;
 	}
 	&::after {
-		background-color: var(--in-fg);
+		background-color: tp.cssVar('input-fg');
 		content: '';
 		left: 0;
 		margin: auto;
@@ -28,10 +28,10 @@
 	}
 
 	&_w {
-		@extend %input;
+		@extend %tp-input;
 
 		cursor: pointer;
-		height: calc(var(--bld-us));
+		height: calc(#{tp.cssVar('container-unit-size')});
 		overflow: hidden;
 	}
 	&_o {
@@ -47,17 +47,17 @@
 		width: 100%;
 	}
 	&_mjt {
-		stroke: var(--in-fg);
+		stroke: tp.cssVar('input-fg');
 		stroke-width: 2;
 		transform-origin: bottom;
 	}
 	&_mnt {
-		stroke: var(--in-fg);
+		stroke: tp.cssVar('input-fg');
 		stroke-width: 1;
 		transform-origin: bottom;
 	}
 	&_l {
-		color: var(--in-fg);
+		color: tp.cssVar('input-fg');
 		font-size: 0.9em;
 		pointer-events: none;
 		position: absolute;
@@ -149,7 +149,7 @@
 	}
 	&#{&}-mw &_mjt,
 	&#{&}-mw &_mnt {
-		stroke: var(--in-fg);
+		stroke: tp.cssVar('input-fg');
 		stroke-width: 2;
 		transform: scaleY(10);
 	}
@@ -158,7 +158,7 @@
 	}
 }
 
-.#{$prefix}-ckrtxtv {
+.#{tp.$prefix}-ckrtxtv {
 	display: flex;
 
 	&_r {

@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 import Alias from '@rollup/plugin-alias';
 import {nodeResolve} from '@rollup/plugin-node-resolve';
 import Replace from '@rollup/plugin-replace';
@@ -28,7 +30,7 @@ function getPlugins(css, shouldMinify) {
 			entries: [
 				{
 					find: '@tweakpane/core',
-					replacement: './node_modules/@tweakpane/core/dist/es6/index.js',
+					replacement: './node_modules/@tweakpane/core/dist/esm/index.js',
 				},
 			],
 		}),
@@ -62,19 +64,6 @@ function getDistName(packageName) {
 		.join('-');
 }
 
-function getUmdName(packageName) {
-	// `@tweakpane/plugin-foobar` -> `TweakpaneFoobarPlugin`
-	// `tweakpane-plugin-foobar`  -> `TweakpaneFoobarPlugin`
-	return (
-		packageName
-			.split(/[@/-]/)
-			.map((comp) =>
-				comp !== 'plugin' ? comp.charAt(0).toUpperCase() + comp.slice(1) : '',
-			)
-			.join('') + 'Plugin'
-	);
-}
-
 export default async () => {
 	const production = process.env.BUILD === 'production';
 	const postfix = production ? '.min' : '';
@@ -85,8 +74,7 @@ export default async () => {
 		input: 'src/index.ts',
 		output: {
 			file: `dist/${distName}${postfix}.js`,
-			format: 'umd',
-			name: getUmdName(Package.name),
+			format: 'esm',
 		},
 		plugins: getPlugins(css, production),
 

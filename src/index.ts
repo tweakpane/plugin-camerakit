@@ -1,4 +1,4 @@
-import {RingInputPlugin} from './plugin-ring';
-import {WheelInputPlugin} from './plugin-wheel';
+import {RingInputPlugin} from './plugin-ring.js';
+import {WheelInputPlugin} from './plugin-wheel.js';
 
 export const plugins = [RingInputPlugin, WheelInputPlugin];

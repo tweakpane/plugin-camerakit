@@ -1,23 +1,22 @@
 import {
 	createNumberFormatter,
+	createNumberTextInputParamsParser,
+	createNumberTextPropsObject,
 	Formatter,
-	getBaseStep,
 	getDecimalDigits,
-	getSuitableDecimalDigits,
-	getSuitableDraggingScale,
 	InputBindingPlugin,
-	InputParams,
 	numberFromUnknown,
-	ParamsParsers,
 	parseNumber,
-	parseParams,
+	parseRecord,
+	ValueMap,
+	VERSION,
 	writePrimitive,
 } from '@tweakpane/core';
 
-import {RingController} from './controller/ring';
-import {RingTextController} from './controller/ring-text';
-import {createConstraint, RingInputParams, RingSeries} from './util';
-import {RingUnit} from './view/ring';
+import {RingController} from './controller/ring.js';
+import {RingTextController} from './controller/ring-text.js';
+import {createConstraint, RingInputParams, RingSeries} from './util.js';
+import {RingUnit} from './view/ring.js';
 
 function parseSeries(value: unknown): RingSeries | undefined {
 	return value === 0 || value === 1 || value === 2 ? value : undefined;
@@ -44,27 +43,26 @@ export const RingInputPlugin: InputBindingPlugin<
 > = {
 	id: 'input-camerakit-ring',
 	type: 'input',
+	core: VERSION,
 	css: '__css__',
-	accept(exValue: unknown, params: InputParams) {
+
+	accept(exValue: unknown, params) {
 		if (typeof exValue !== 'number') {
 			return null;
 		}
 
-		const p = ParamsParsers;
-		const result = parseParams<RingInputParams>(params, {
-			view: p.required.constant('cameraring'),
+		const result = parseRecord<RingInputParams>(params, (p) => ({
+			...createNumberTextInputParamsParser(p),
 
-			max: p.optional.number,
-			min: p.optional.number,
 			series: p.optional.custom(parseSeries),
-			step: p.optional.number,
 			unit: p.optional.object({
 				pixels: p.required.number,
 				ticks: p.required.number,
 				value: p.required.number,
 			}),
+			view: p.required.constant('cameraring'),
 			wide: p.optional.boolean,
-		});
+		}));
 		return result
 			? {
 					initialValue: exValue,
@@ -83,17 +81,18 @@ export const RingInputPlugin: InputBindingPlugin<
 			pixels: 40,
 			value: 10,
 		};
-		const c = args.constraint;
-		const formatters = {
-			ring: createRingFormatter(ringUnit),
-			text: createNumberFormatter(
-				getSuitableDecimalDigits(c, args.initialValue),
-			),
-		};
+		const ringFormatter = createRingFormatter(ringUnit);
+		const textPropsObj = createNumberTextPropsObject(
+			args.params,
+			args.initialValue,
+		);
 
 		if (args.params.wide) {
 			return new RingController(args.document, {
-				formatters: formatters,
+				formatters: {
+					ring: ringFormatter,
+					text: textPropsObj.formatter,
+				},
 				seriesId: getRingSeries(args.params.series) ?? '0',
 				tooltipEnabled: true,
 				unit: ringUnit,
@@ -102,13 +101,13 @@ export const RingInputPlugin: InputBindingPlugin<
 			});
 		}
 
+		const textProps = ValueMap.fromObject(textPropsObj);
 		return new RingTextController(args.document, {
-			baseStep: getBaseStep(c),
-			draggingScale: getSuitableDraggingScale(c, args.initialValue),
-			formatters: formatters,
 			parser: parseNumber,
-			seriesId: getRingSeries(args.params.series) ?? '0',
+			ringFormatter: ringFormatter,
 			ringUnit: ringUnit,
+			seriesId: getRingSeries(args.params.series) ?? '0',
+			textProps: textProps,
 			value: args.value,
 			viewProps: args.viewProps,
 		});
