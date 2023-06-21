@@ -41,10 +41,9 @@ export const RingInputPlugin: InputBindingPlugin<
 	number,
 	RingInputParams
 > = {
-	id: 'input-camerakit-ring',
+	id: 'input-ring',
 	type: 'input',
 	core: VERSION,
-	css: '__css__',
 
 	accept(exValue: unknown, params) {
 		if (typeof exValue !== 'number') {

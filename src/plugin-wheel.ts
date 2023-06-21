@@ -20,7 +20,7 @@ export const WheelInputPlugin: InputBindingPlugin<
 	number,
 	WheelInputParams
 > = {
-	id: 'input-camerakit-wheel',
+	id: 'input-wheel',
 	type: 'input',
 	core: VERSION,
 
