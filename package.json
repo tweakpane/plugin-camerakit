@@ -1,6 +1,6 @@
 {
   "name": "@tweakpane/plugin-camerakit",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0-beta.0",
   "description": "Enjoyable camera flavored controls for Tweakpane",
   "main": "dist/tweakpane-plugin-camerakit.js",
   "type": "module",
