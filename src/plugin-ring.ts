@@ -2,6 +2,7 @@ import {
 	createNumberFormatter,
 	createNumberTextInputParamsParser,
 	createNumberTextPropsObject,
+	createPlugin,
 	Formatter,
 	getDecimalDigits,
 	InputBindingPlugin,
@@ -9,7 +10,6 @@ import {
 	parseNumber,
 	parseRecord,
 	ValueMap,
-	VERSION,
 	writePrimitive,
 } from '@tweakpane/core';
 
@@ -40,10 +40,9 @@ export const RingInputPlugin: InputBindingPlugin<
 	number,
 	number,
 	RingInputParams
-> = {
+> = createPlugin({
 	id: 'input-ring',
 	type: 'input',
-	core: VERSION,
 
 	accept(exValue: unknown, params) {
 		if (typeof exValue !== 'number') {
@@ -111,4 +110,4 @@ export const RingInputPlugin: InputBindingPlugin<
 			viewProps: args.viewProps,
 		});
 	},
-};
+});

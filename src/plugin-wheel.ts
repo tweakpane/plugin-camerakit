@@ -2,12 +2,12 @@ import {
 	createNumberFormatter,
 	createNumberTextInputParamsParser,
 	createNumberTextPropsObject,
+	createPlugin,
 	InputBindingPlugin,
 	numberFromUnknown,
 	parseNumber,
 	parseRecord,
 	ValueMap,
-	VERSION,
 	writePrimitive,
 } from '@tweakpane/core';
 
@@ -19,10 +19,9 @@ export const WheelInputPlugin: InputBindingPlugin<
 	number,
 	number,
 	WheelInputParams
-> = {
+> = createPlugin({
 	id: 'input-wheel',
 	type: 'input',
-	core: VERSION,
 
 	accept(exValue: unknown, params) {
 		if (typeof exValue !== 'number') {
@@ -87,4 +86,4 @@ export const WheelInputPlugin: InputBindingPlugin<
 			viewProps: args.viewProps,
 		});
 	},
-};
+});
