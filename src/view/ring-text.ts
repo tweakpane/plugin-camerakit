@@ -1,6 +1,6 @@
 import {ClassName, NumberTextView, View} from '@tweakpane/core';
 
-import {RingView} from './ring';
+import {RingView} from './ring.js';
 
 interface Config {
 	ringView: RingView;

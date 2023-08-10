@@ -8,7 +8,7 @@ import {
 	ViewProps,
 } from '@tweakpane/core';
 
-import {RingUnit, RingView} from '../view/ring';
+import {RingUnit, RingView} from '../view/ring.js';
 
 interface Config {
 	formatters: {

@@ -1,27 +1,23 @@
 import {
 	Formatter,
 	NumberTextController,
+	NumberTextProps,
 	Parser,
 	Value,
 	ValueController,
-	ValueMap,
 	ViewProps,
 } from '@tweakpane/core';
 
-import {RingUnit} from '../view/ring';
-import {RingTextView} from '../view/ring-text';
-import {RingController} from './ring';
+import {RingUnit} from '../view/ring.js';
+import {RingTextView} from '../view/ring-text.js';
+import {RingController} from './ring.js';
 
 interface Config {
-	baseStep: number;
-	draggingScale: number;
-	formatters: {
-		ring: Formatter<number>;
-		text: Formatter<number>;
-	};
 	parser: Parser<number>;
-	seriesId: string;
+	ringFormatter: Formatter<number>;
 	ringUnit: RingUnit;
+	seriesId: string;
+	textProps: NumberTextProps;
 	value: Value<number>;
 	viewProps: ViewProps;
 }
@@ -40,7 +36,10 @@ export class RingTextController
 		this.viewProps = config.viewProps;
 
 		this.rc_ = new RingController(doc, {
-			formatters: config.formatters,
+			formatters: {
+				ring: config.ringFormatter,
+				text: config.textProps.get('formatter'),
+			},
 			seriesId: config.seriesId,
 			tooltipEnabled: false,
 			unit: config.ringUnit,
@@ -48,12 +47,8 @@ export class RingTextController
 			viewProps: this.viewProps,
 		});
 		this.tc_ = new NumberTextController(doc, {
-			baseStep: config.baseStep,
 			parser: config.parser,
-			props: ValueMap.fromObject({
-				draggingScale: config.draggingScale,
-				formatter: config.formatters.text,
-			}),
+			props: config.textProps,
 			value: this.value,
 			viewProps: this.viewProps,
 		});

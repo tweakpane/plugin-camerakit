@@ -4,30 +4,29 @@ import {
 	Constraint,
 	createRangeConstraint,
 	createStepConstraint,
+	NumberTextInputParams,
 } from '@tweakpane/core';
 
-import {RingUnit} from './view/ring';
+import {RingUnit} from './view/ring.js';
 
 export type RingSeries = 0 | 1 | 2;
 
-export interface RingInputParams extends BaseInputParams {
+export interface RingInputParams
+	extends BaseInputParams,
+		NumberTextInputParams {
 	view: 'cameraring';
 
-	max?: number;
-	min?: number;
 	series?: RingSeries;
-	step?: number;
 	unit?: RingUnit;
 	wide?: boolean;
 }
 
-export interface WheelInputParams extends BaseInputParams {
+export interface WheelInputParams
+	extends BaseInputParams,
+		NumberTextInputParams {
 	view: 'camerawheel';
 
 	amount?: number;
-	max?: number;
-	min?: number;
-	step?: number;
 	wide?: boolean;
 }
 

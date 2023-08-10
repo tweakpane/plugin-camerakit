@@ -9,10 +9,11 @@ Enjoyable camera flavored controls for [Tweakpane].
 
 ### Browser
 ```html
-<script src="tweakpane.min.js"></script>
-<script src="tweakpane-plugin-camerakit.min.js"></script>
-<script>
-const pane = new Tweakpane.Pane();
+<script type="module">
+import {Pane} from './tweakpane.min.js';
+import * as TweakpaneCamerakitPlugin from 'tweakpane-plugin-camerakit.min.js';
+
+const pane = new Pane();
 pane.registerPlugin(TweakpaneCamerakitPlugin);
 </script>
 ```
@@ -31,7 +32,7 @@ pane.registerPlugin(CamerakitPlugin);
 ## Usage
 ```js
 // Ring input
-pane.addInput(params, 'key', {
+pane.addBinding(params, 'key', {
   // Ring control
   view: 'cameraring',
   // Appearance of the ring view: 0 | 1 | 2
@@ -41,7 +42,7 @@ pane.addInput(params, 'key', {
 
 ```js
 // Configuring a scale
-pane.addInput(params, 'key', {
+pane.addBinding(params, 'key', {
   view: 'cameraring',
   series: 0,
   // Scale unit
@@ -61,7 +62,7 @@ pane.addInput(params, 'key', {
 
 ```js
 // Wide
-pane.addInput(params, 'key', {
+pane.addBinding(params, 'key', {
   view: 'cameraring',
   series: 0,
   // Hide a text input and widen the ring view
@@ -71,7 +72,7 @@ pane.addInput(params, 'key', {
 
 ```js
 // Wheel input
-pane.addInput(params, 'key', {
+pane.addBinding(params, 'key', {
   view: 'camerawheel',
   // Amount of a value per pixel
   amount: 100,
