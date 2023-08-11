@@ -80,4 +80,12 @@ pane.addBinding(params, 'key', {
 ```
 
 
+## Version compatibility
+
+| Tweakpane | Camerakit |
+| --------- | --------- |
+| 4.x       | 0.3.x     |
+| 3.x       | 0.2.x     |
+
+
 [tweakpane]: https://github.com/cocopon/tweakpane/
